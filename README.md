@@ -1,3 +1,3 @@
-# App Starter
+# Study Helper App
 
-This project is a template to start any web application.
+This simple web app will allow you to upload files/images and have AI create some sample questions to better prepare you for exams
