@@ -76,7 +76,7 @@ app.post('/api/analyze', upload.single('file'), async (req, res) => {
     // Send extracted text to Gemini API to create questions
     const result = await ai.models.generateContent({
       model: 'gemini-2.5-pro',
-      contents: `Generate 10 exam questions with anzwers based on the following text:\n\n${extractedText}`
+      contents: `Generate 50 hard exam questions with answers to the following text. Output only the questions and answers, no introduction, no markdown formatting, and no extra commentary:\n\n${extractedText}`
     });
     const response = result.text;
     res.json({ questions: response });
