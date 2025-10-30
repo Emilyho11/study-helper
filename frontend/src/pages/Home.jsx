@@ -5,6 +5,7 @@ const Home = () => {
   const [file, setFile] = useState(null)
   const [textContent, setTextContent] = useState('')
   const [questions, setQuestions] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('questions');
@@ -34,6 +35,7 @@ const Home = () => {
     console.log('File uploaded:', selectedFile)
     setFile(selectedFile)
     setQuestions('')
+    setLoading(true)
     localStorage.removeItem('questions');
     const formData = new FormData()
     formData.append('file', selectedFile)
@@ -50,6 +52,8 @@ const Home = () => {
       setQuestions(data.questions)
     } catch (error) {
       console.error(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -76,10 +80,16 @@ const Home = () => {
         </div>
       )}
 
-      {questions && (
+      {loading && (
+        <div className="m-4 p-4 text-center text-lg text-blue-600">
+          Generating questions, please wait...
+        </div>
+      )}
+
+      {questions && !loading && (
         <div className="m-4 p-4 border rounded border-gray-300">
           <h3>Generated Exam Questions:</h3>
-          <pre>{questions}</pre>
+          <pre className="whitespace-pre-wrap">{questions}</pre>
         </div>
       )}
     </div>
