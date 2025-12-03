@@ -10,7 +10,7 @@
         "start-backend": "concurrently \"node backend/Server.js\"",
         "start-frontend": "cd frontend && npm run dev"
     },
-    "devDependencies": {
+    "dependencies": {
         "concurrently": "^6.5.1"
     }
 }
