@@ -4,16 +4,21 @@
   "main": "Server.js",
   "type": "module",
   "scripts": {
-    "dev": "node Server.js",
-    "build": "echo \"No build step required for backend\""
+    "dev": "cross-env NODE_ENV=development node Server.js",
+    "start": "cross-env NODE_ENV=production node Server.js",
+    "build": "echo \"No build step for backend\""
   },
   "dependencies": {
     "@azure-rest/ai-document-intelligence": "^1.1.0",
     "@google/genai": "^1.27.0",
     "axios": "^1.13.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0"
   }
 }

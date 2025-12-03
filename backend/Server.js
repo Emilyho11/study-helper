@@ -4,7 +4,6 @@ import multer from 'multer';
 import cors from 'cors';
 import axios from 'axios';
 import fs from 'fs';
-import { createServer } from "http";
 import { GoogleGenAI } from "@google/genai";
 import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
 import { resolve } from 'path';
@@ -12,15 +11,34 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PORT = 3000;
 const app = express();
 const upload = multer({ dest: resolve("uploads") });
 
-app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "2mb" }));
 
 // Serve static files from frontend/dist
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// CORS
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://study-helper-g6yi.onrender.com/",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_AI_KEY });
 
@@ -82,7 +100,7 @@ app.post('/api/analyze', upload.single('file'), async (req, res) => {
     // Send extracted text to Gemini API to create questions
     const result = await ai.models.generateContent({
       model: 'gemini-2.5-pro',
-      contents: `Generate 50 challenging exam questions and answers to the following text. Output only the questions and answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next:\n\n${extractedText}`
+      contents: `Generate 50 challenging exam questions (but don't make english so complicated) and answers to the following text. Output only the questions and answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next:\n\n${extractedText}`
     });
     const response = result.text;
     res.json({ questions: response });
@@ -102,7 +120,10 @@ app.post('/api/analyze', upload.single('file'), async (req, res) => {
   }
 });
 
-export const server = createServer(app).listen(PORT, function (err) {
-  if (err) console.log(err);
-  else console.log("HTTP server on http://localhost:%s", PORT);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
+export default app;
