@@ -4,11 +4,8 @@
     "authors": "author",
     "version": "1.0.0",
     "scripts": {
-        "start": "npm run install-all && concurrently \"npm run start-backend\" \"npm run start-frontend\"",
-        "build": "echo \"No build step required for root project\"",
-        "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ..",
-        "start-backend": "concurrently \"node backend/Server.js\"",
-        "start-frontend": "cd frontend && npm run dev"
+        "build-frontend": "cd frontend && npm install && npm run build",
+        "start": "npm run build-frontend && cd backend && npm install && node server.js"
     },
     "dependencies": {
         "concurrently": "^6.5.1"

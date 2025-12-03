@@ -8,13 +8,19 @@ import { createServer } from "http";
 import { GoogleGenAI } from "@google/genai";
 import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
 import { resolve } from 'path';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = 3000;
 const app = express();
 const upload = multer({ dest: resolve("uploads") });
 
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from frontend/dist
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_AI_KEY });
 
