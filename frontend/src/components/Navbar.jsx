@@ -13,7 +13,7 @@ const Navbar = () => {
   ]
 
   return (
-    <header className='header flex w-full h-[72px] bg-dark_blue relative shadow z-10'>
+    <header className='header flex w-full h-[72px] bg-[#2c4b7d] relative shadow z-10'>
       <div className="m-4 mr-32 absolute top-5 right-0 gap-14 text-base hidden lg:flex">
         {myLinks.map((link, index) => (
           <NavLink
@@ -39,7 +39,7 @@ const Navbar = () => {
         </button>
       </div>
       {isOpen && (
-        <div className="lg:hidden absolute top-14 right-0 w-1/2 md:w-1/3 bg-dark_blue shadow-lg flex flex-col text-lg z-10 gap-2 p-2">
+        <div className="lg:hidden absolute top-14 right-0 w-1/2 md:w-1/3 bg-[#2c4b7d] shadow-lg flex flex-col text-lg z-10 gap-2 p-2">
           {myLinks.map((link, index) => (
             <NavLink
               key={index}
