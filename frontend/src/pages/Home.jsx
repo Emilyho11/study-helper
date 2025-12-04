@@ -41,7 +41,7 @@ const Home = () => {
     formData.append('file', selectedFile)
 
     try {
-      const response = await fetch('http://localhost:3000/api/analyze', {
+      const response = await fetch('/api/analyze', {
         method: 'POST',
         body: formData,
       })
