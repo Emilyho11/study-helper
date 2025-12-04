@@ -16,14 +16,11 @@ const upload = multer({ dest: resolve("uploads") });
 
 app.use(express.json({ limit: "2mb" }));
 
-// Serve static files from frontend/dist
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
 // CORS
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://study-helper-g6yi.onrender.com/",
+  "https://study-helper-g6yi.onrender.com",
 ];
 
 app.use(
@@ -39,6 +36,9 @@ app.use(
     credentials: true,
   })
 );
+
+// Serve static files from frontend/dist
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_AI_KEY });
 
