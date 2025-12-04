@@ -59,7 +59,6 @@ const Home = () => {
 
   return (
     <div>
-      <div className='text-2xl font-semibold text-center mt-4'>Welcome to Study Helper</div>
       <UploadFile onFileUpload={handleFileUpload} />
       {questions && (
         <div className="flex justify-center space-x-4 mt-4">
