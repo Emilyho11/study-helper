@@ -4,7 +4,7 @@
     "authors": "author",
     "version": "1.0.0",
     "scripts": {
-        "build-frontend": "cd frontend && npm install && npm run build",
+        "build-frontend": "cd frontend && rm -rf node_modules package-lock.json && npm install && npm run build",
         "start": "npm run build-frontend && cd backend && npm install && npm start"
     },
     "dependencies": {
