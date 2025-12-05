@@ -10,7 +10,7 @@ function App() {
       <BrowserRouter>
         <div className='min-h-screen flex flex-col'>
           <Navbar />
-          <div className='flex-grow bg-white'>
+          <div className='grow bg-white'>
             <Routes>
               <Route path="/" element={<Home />} />
             </Routes>

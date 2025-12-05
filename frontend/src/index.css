@@ -13,24 +13,3 @@
   -moz-osx-font-smoothing: grayscale;
   overflow-y: scroll;
 }
-
-body {
-	margin: 0;
-	min-width: 50vw;
-	min-height: 100vh;
-}
-
-h1 {
-	font-size: 3.5rem;
-	font-weight: 600;
-}
-
-h2 {
-	font-size: 2rem;
-	font-weight: 400;
-}
-
-h3 {
-	font-size: 1.3rem;
-	font-weight: 200;
-}

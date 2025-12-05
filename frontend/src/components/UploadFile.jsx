@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-const UploadFile = ({ onFileUpload }) => {
+const UploadFile = ({ onFileUpload, uploadedFile }) => {
   const fileInputRef = useRef(null);
   const [dragActive, setDragActive] = useState(false);
 
@@ -63,6 +63,11 @@ const UploadFile = ({ onFileUpload }) => {
       <div className='mt-2 text-gray-500 text-sm'>
         or drag and drop your file here
       </div>
+      {uploadedFile && (
+        <div className="text-center text-sm text-gray-700 mt-2">
+          Uploaded file: <span className="font-semibold">{uploadedFile.name}</span>
+        </div>
+      )}
     </div>
   )
 }
