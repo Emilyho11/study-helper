@@ -7,14 +7,14 @@ import { faBars, faPencil } from "@fortawesome/free-solid-svg-icons";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const myLinks = [
-    { name: 'Home', url: '/' },
-    { name: 'About', url: '/about' }
+    { name: 'HOME', url: '/' },
+    { name: 'ABOUT', url: '/about' }
   ]
 
   return (
     <header className='header flex w-full h-[72px] bg-[#2c4b7d] relative shadow z-10 items-center px-10'>
       <div className='text-xl text-white text-center flex items-center gap-2'>
-        Study Helper
+        STUDY HELPER
         <FontAwesomeIcon className='text-md' icon={faPencil} />
       </div>
       <div className="m-4 mr-32 absolute top-5 right-0 gap-14 text-base hidden lg:flex">

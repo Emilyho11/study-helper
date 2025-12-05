@@ -3,7 +3,6 @@ import UploadFile from '../components/UploadFile.jsx'
 
 const Home = () => {
   const [file, setFile] = useState(null)
-  const [textContent, setTextContent] = useState('');
   const [questions, setQuestions] = useState('');
   const [loading, setLoading] = useState(false);
   const [difficulty, setDifficulty] = useState('');
@@ -101,7 +100,7 @@ const Home = () => {
           onChange={e => setDifficulty(e.target.value)}
           className="px-2 py-1 border rounded"
         >
-          <option value="">Select difficulty</option>
+          <option value="" disabled hidden>Select</option>
           <option value="easy">Easy</option>
           <option value="hard">Hard</option>
         </select>
@@ -111,7 +110,7 @@ const Home = () => {
           onChange={e => setQuestionType(e.target.value)}
           className="px-2 py-1 border rounded"
         >
-          <option value="">Select question type</option>
+          <option value="" disabled hidden>Select</option>
           <option value="knowledge">Testing Understanding (facts, terms, memorization)</option>
           <option value="scenario">Similar Questions (generate new questions like those in the file)</option>
           <option value="multiple-choice">Multiple Choice (choose the correct answer about the material)</option>
@@ -120,12 +119,12 @@ const Home = () => {
           className={`px-2 py-1 rounded transition-colors duration-200 ${
             !questions
               ? 'text-white bg-green-700 hover:bg-green-600'
-              : 'bg-gray-200 hover:bg-gray-300'
+              : 'text-white bg-gray-500 hover:bg-gray-400'
           }`}
           onClick={!questions ? handleGenerateQuestions : handleRefresh}
           disabled={!file || !difficulty || !questionType || loading}
         >
-          {!questions ? 'Generate Questions' : 'Generate new questions'}
+          {!questions ? 'Generate Questions' : 'Generate New Questions'}
         </button>
       </div>
       {loading && (
