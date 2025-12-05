@@ -93,7 +93,7 @@ const Home = () => {
   return (
     <div>
       <UploadFile onFileUpload={handleFileUpload} uploadedFile={file} />
-      <div className="flex justify-center items-center gap-4 mt-2">
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-4 mt-2">
         <p>Select Difficulty:</p>
         <select
           value={difficulty}
@@ -108,12 +108,12 @@ const Home = () => {
         <select
           value={questionType}
           onChange={e => setQuestionType(e.target.value)}
-          className="px-2 py-1 border rounded"
+          className="px-2 py-1 border rounded w-full max-w-xs sm:w-auto"
         >
           <option value="" disabled hidden>Select</option>
-          <option value="knowledge">Testing Understanding (facts, terms, memorization)</option>
-          <option value="scenario">Similar Questions (generate new questions like those in the file)</option>
-          <option value="multiple-choice">Multiple Choice (choose the correct answer about the material)</option>
+          <option value="knowledge">Knowledge Questions (facts, terms)</option>
+          <option value="scenario">Similar Questions</option>
+          <option value="multiple-choice">Multiple Choice</option>
         </select>
         <button
           className={`px-2 py-1 rounded transition-colors duration-200 ${
