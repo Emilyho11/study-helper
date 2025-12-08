@@ -115,7 +115,7 @@ app.post('/api/analyze', upload.single('file'), async (req, res) => {
 
     // Send extracted text to Gemini API to create questions
     const result = await ai.models.generateContent({
-      model: 'gemini-2.5-pro',
+      model: 'gemini-2.5-flash',
       contents: prompt
     });
     const response = result.text;
