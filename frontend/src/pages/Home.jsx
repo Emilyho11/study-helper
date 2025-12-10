@@ -112,8 +112,9 @@ const Home = () => {
         >
           <option value="" disabled hidden>Select</option>
           <option value="knowledge">Knowledge Questions (facts, terms)</option>
-          <option value="scenario">Similar Questions</option>
+          <option value="similar">Similar Questions</option>
           <option value="multiple-choice">Multiple Choice</option>
+          <option value="scenario">Application/Scenario-Based Questions</option>
         </select>
         <button
           className={`px-2 py-1 rounded transition-colors duration-200 ${
