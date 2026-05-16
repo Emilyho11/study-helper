@@ -7,6 +7,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [difficulty, setDifficulty] = useState('');
   const [questionType, setQuestionType] = useState('');
+  const [shownAnswers, setShownAnswers] = useState({});
 
   useEffect(() => {
     const saved = localStorage.getItem('questions');
@@ -22,9 +23,10 @@ const Home = () => {
   }, [questions]);
 
   const handleClear = () => {
-    setQuestions('')
+    setQuestions(null);
     localStorage.removeItem('questions');
     setFile(null);
+    setShownAnswers({});
   };
 
   const handleRefresh = () => {
@@ -35,15 +37,15 @@ const Home = () => {
   const handleFileUpload = async (selectedFile) => {
     console.log('File uploaded:', selectedFile);
     setFile(selectedFile);
-    setQuestions('');
+    setQuestions(null);
     localStorage.removeItem('questions');
-  }
+    setShownAnswers({});
+  };
 
   const handleGenerateQuestions = async () => {
     if (!file || !difficulty || !questionType) return;
-    setQuestions('');
-    setQuestions('')
-    setLoading(true)
+    setQuestions(null);
+    setLoading(true);
     localStorage.removeItem('questions');
     const formData = new FormData()
     formData.append('file', file);
@@ -59,37 +61,31 @@ const Home = () => {
         throw new Error('Failed to analyze document')
       }
       const data = await response.json()
-      setQuestions(data.questions)
+
+      console.log('Received questions HEHEHE:', data);
+      // Parse questions as JSON
+      let parsed = null;
+      try {
+        parsed = typeof data.questions === 'string' ? JSON.parse(data.questions) : data.questions;
+      } catch (error) {
+        console.error('Error parsing questions:', error);
+        parsed = null;
+      }
+      setQuestions(parsed);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
-  const splitQuestions = (text) => {
-    if (!text) return '';
-    const regex = /^\s*answers?\s*$/i;
-    const lines = text.split('\n');
-    const idx = lines.findIndex(line => regex.test(line.trim()));
-    if (idx === -1) return text;
-    // Preserve all original formatting (including empty lines)
-    return lines.slice(0, idx).join('\n');
+  const toggleAnswer = (question) => {
+    setShownAnswers(prev => ({
+      ...prev,
+      [question]: !prev[question]
+    }));
   };
-
-  const splitAnswers = (text) => {
-    if (!text) return '';
-    const regex = /^\s*answers?\s*$/i;
-    const lines = text.split('\n');
-    const idx = lines.findIndex(line => regex.test(line.trim()));
-    if (idx === -1) return '';
-    const answers = lines.slice(idx + 1).filter(Boolean);
-    return answers.join('\n');
-  };
-
-  const questionsParsed = splitQuestions(questions);
-  const answersParsed = splitAnswers(questions);
-
+  
   return (
     <div>
       <UploadFile onFileUpload={handleFileUpload} uploadedFile={file} />
@@ -128,12 +124,11 @@ const Home = () => {
           {!questions ? 'Generate Questions' : 'Generate New Questions'}
         </button>
       </div>
-      {loading && (
+            {loading && (
         <div className="m-4 p-4 text-center text-lg text-blue-600">
           Generating questions, please wait...
         </div>
       )}
-
       {questions && !loading && (
         <div className="relative m-4 p-10 border rounded border-gray-300 bg-white shadow">
           <button
@@ -145,17 +140,43 @@ const Home = () => {
           </button>
           <h3 className='mb-2 text-xl font-semibold text-[#2c4b7d]'>GENERATED EXAM QUESTIONS:</h3>
           <div className="mb-4 whitespace-pre-wrap font-sans px-4 text-[#2c4b7d]">
-            {questionsParsed}
-          </div>
-          {answersParsed && (
-            <>
-              <hr className="my-4" />
-              <h4 className="text-lg font-semibold text-[#2c4b7d] mb-2">Answers:</h4>
-              <div className="whitespace-pre-wrap font-sans px-4 text-[#2c4b7d]">
-                {answersParsed}
+            {Object.entries(questions).map(([question, answer], index) => (
+              <div key={index} className="mb-4 border-b pb-2">
+                {/* Show question and choices */}
+                <div className="font-medium" style={{ whiteSpace: 'pre-line' }}>
+                  {index + 1}. {question}
+                  {answer && answer.choices && (
+                    <ul style={{ marginTop: 8 }}>
+                      {Object.entries(answer.choices).map(([choice, text]) => (
+                        <li key={choice}>
+                          <strong>{choice}:</strong> {text}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <button
+                  className="mt-2 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  onClick={() => toggleAnswer(index)}
+                >
+                  {shownAnswers[index] ? 'Hide Answer' : 'Show Answer'}
+                </button>
+                {shownAnswers[index] && (
+                  <div className="mt-1 mb-4 px-4 py-2 bg-gray-100 rounded text-gray-800">
+                    {/* Show only the correct answer text */}
+                    {answer && answer.choices && answer.answer
+                      ? (
+                        <span>
+                          <strong>Correct Answer:</strong> {answer.choices[answer.answer]}
+                        </span>
+                      )
+                      : answer
+                    }
+                  </div>
+                )}
               </div>
-            </>
-          )}
+            ))}
+          </div>
         </div>
       )}
     </div>

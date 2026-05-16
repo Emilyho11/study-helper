@@ -70,21 +70,21 @@ app.post('/api/analyze', upload.single('file'), async (req, res) => {
     // Build prompt
     let prompt = '';
     if (difficulty === 'easy' && questionType === 'knowledge') {
-      prompt = `Generate 50 challenging exam questions (but don't make english so complicated) and answers to the following document. Output only the questions and then the answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next, but make sure to number each one.`;
+      prompt = `Generate 50 challenging exam questions (but don't make english so complicated) and answers to the following document. Output a JSON object where each key is a full exam question and each value is its answer. Do not use "Question 1", "Answer 1", or any numbering—just the question as the key and the answer as the value. No introduction, no markdown formatting, and no extra commentary.`;
     } else if (difficulty === 'hard' && questionType === 'knowledge') {
-      prompt = `Generate 50 challenging exam questions and answers to the following document. Output only the questions and then the answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next, but make sure to number each one.`;
+      prompt = `Generate 50 challenging exam questions and answers to the following document. Output a JSON object where each key is a full exam question and each value is its answer. Do not use "Question 1", "Answer 1", or any numbering—just the question as the key and the answer as the value. No introduction, no markdown formatting, and no extra commentary.`;
     } else if (difficulty === 'easy' && questionType === 'similar') {
-      prompt = `Read the following document. Then, generate 20 new exam questions that are similar in style, format, and subject matter to the examples provided. Do not simply ask general questions about the topic; instead, create new questions that closely resemble the original ones. Use simple English. Output only the new questions, and then the answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next, but make sure to number each one.`;
+      prompt = `Read the following document. Then, generate 20 new exam questions that are similar in style, format, and subject matter to the examples provided. Do not simply ask general questions about the topic; instead, create new questions that closely resemble the original ones. Use simple English. Output a JSON object where each key is a full exam question and each value is its answer. Do not use "Question 1", "Answer 1", or any numbering—just the question as the key and the answer as the value. No introduction, no markdown formatting, and no extra commentary.`;
     } else if (difficulty === 'hard' && questionType === 'similar') {
-      prompt = `Read the following document. Then, generate 20 new challenging exam questions that are similar in style, format, and subject matter to the examples provided. Do not simply ask general questions about the topic; instead, create new questions that closely resemble the original ones. Output only the new questions, and then the answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next, but make sure to number each one.`;
+      prompt = `Read the following document. Then, generate 20 new challenging exam questions that are similar in style, format, and subject matter to the examples provided. Do not simply ask general questions about the topic; instead, create new questions that closely resemble the original ones. Output a JSON object where each key is a full exam question and each value is its answer. Do not use "Question 1", "Answer 1", or any numbering—just the question as the key and the answer as the value. No introduction, no markdown formatting, and no extra commentary.`;
     } else if (difficulty === 'easy' && questionType === 'multiple-choice') {
-      prompt = `Generate 50 multiple choice questions based on the following document. Use simple English. Output only the questions and then the answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next, but make sure to number each one.`;
+      prompt = `Generate 50 multiple choice questions based on the following document. Use simple English. Output a JSON object where each key is the full question text (not just "Question 1", but the actual question), and each value is an object with two fields: "choices" (an object with keys "A", "B", "C", "D" and their text), and "answer" (the correct letter, e.g., "A"). No introduction, no markdown formatting, and no extra commentary.`;
     } else if (difficulty === 'hard' && questionType === 'multiple-choice') {
-      prompt = `Generate 50 challenging multiple choice questions based on the following document. Output only the questions and then the answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next, but make sure to number each one.`;
+      prompt = `Generate 50 challenging multiple choice questions based on the following document. Output a JSON object where each key is the full question text (not just "Question 1", but the actual question), and each value is an object with two fields: "choices" (an object with keys "A", "B", "C", "D" and their text), and "answer" (the correct letter, e.g., "A"). No introduction, no markdown formatting, and no extra commentary.`;
     } else if (difficulty === 'easy' && questionType === 'scenario') {
-      prompt = `Generate 50 application/scenario-based questions based on the following document. Use simple English. Output only the questions and then the answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next, but make sure to number each one.`;
+      prompt = `Generate 50 application/scenario-based questions based on the following document. Use simple English. Output a JSON object where each key is a full exam question and each value is its answer. Do not use "Question 1", "Answer 1", or any numbering—just the question as the key and the answer as the value. No introduction, no markdown formatting, and no extra commentary.`;
     } else if (difficulty === 'hard' && questionType === 'scenario') {
-      prompt = `Generate 50 challenging application/scenario-based questions based on the following document. Output only the questions and then the answers, no introduction, no markdown formatting, and no extra commentary. Make the questions first, then have the answers next, but make sure to number each one.`;
+      prompt = `Generate 50 challenging application/scenario-based questions based on the following document. Output a JSON object where each key is a full exam question and each value is its answer. Do not use "Question 1", "Answer 1", or any numbering—just the question as the key and the answer as the value. No introduction, no markdown formatting, and no extra commentary.`;
     }
 
     // Prepare Gemini contents with file reference
@@ -101,7 +101,12 @@ app.post('/api/analyze', upload.single('file'), async (req, res) => {
       model: 'gemini-2.5-flash',
       contents: contents
     });
-    const response = result.text;
+    let response = result.text;
+    let jsonStart = response.indexOf('{');
+    let jsonEnd = response.lastIndexOf('}');
+    if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+      response = response.substring(jsonStart, jsonEnd + 1);
+    }
     res.json({ questions: response });
   }
   catch (error) {
