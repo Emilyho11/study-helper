@@ -87,9 +87,9 @@ const Home = () => {
   };
   
   return (
-    <div>
+    <div className='w-full bg-background-color items-center flex flex-col my-8'>
       <UploadFile onFileUpload={handleFileUpload} uploadedFile={file} />
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-4 mt-2">
+      <div className="w-2/3 flex flex-col lg:flex-row justify-center items-center gap-4 mt-2">
         <p>Select Difficulty:</p>
         <select
           value={difficulty}
@@ -130,7 +130,7 @@ const Home = () => {
         </div>
       )}
       {questions && !loading && (
-        <div className="relative m-4 p-10 border rounded border-gray-300 bg-white shadow">
+        <div className="w-2/3 relative m-4 p-10 border rounded border-gray-300 bg-white/90 shadow">
           <button
             className='absolute top-0 right-2 px-2 py-1 text-3xl text-red-600 rounded hover:text-red-300'
             onClick={handleClear}
@@ -156,13 +156,13 @@ const Home = () => {
                   )}
                 </div>
                 <button
-                  className="mt-2 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  className="mt-2 px-2 py-1 bg-dark-blue text-white rounded hover:bg-dark-blue/70 transition-colors duration-200"
                   onClick={() => toggleAnswer(index)}
                 >
                   {shownAnswers[index] ? 'Hide Answer' : 'Show Answer'}
                 </button>
                 {shownAnswers[index] && (
-                  <div className="mt-1 mb-4 px-4 py-2 bg-gray-100 rounded text-gray-800">
+                  <div className="mt-1 mb-4 px-4 py-2 bg-background-color rounded text-gray-800">
                     {/* Show only the correct answer text */}
                     {answer && answer.choices && answer.answer
                       ? (

@@ -3,7 +3,7 @@ import React from 'react'
 const About = () => {
   return (
     <div>
-      <div className="m-8 p-6 border rounded border-gray-300 bg-white shadow text-[#2c4b7d]">
+      <div className="m-8 p-6 border rounded border-gray-300 shadow text-[#2c4b7d]">
         <h2 className="text-2xl font-bold mb-4 text-[#2c4b7d]">About Study Helper</h2>
         <p className="mb-4 text-[#2c4b7d]">
           Study Helper is an AI-powered tool designed to help you in generating practice questions tailored to your courses. By uploading any type of file (can be your professor's lecture notes or your own), you can specify the difficulty level and the type of questions to generate.

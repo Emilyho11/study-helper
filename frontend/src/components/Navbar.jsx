@@ -12,7 +12,7 @@ const Navbar = () => {
   ]
 
   return (
-    <header className='header flex w-full h-[72px] bg-[#2c4b7d] relative shadow z-10 items-center px-10'>
+    <header className='header flex w-full h-[72px] bg-dark-blue relative shadow z-10 items-center px-10'>
       <div className='text-xl text-white text-center flex items-center gap-2'>
         STUDY HELPER
         <FontAwesomeIcon className='text-md' icon={faPencil} />

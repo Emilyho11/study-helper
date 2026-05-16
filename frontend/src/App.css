@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background-color: #D8E3E8;
+  --color-dark-blue: #0c3762;
+  --color-red-accent: #541818;
+}
+
 #root {
   margin: 0 auto;
 }

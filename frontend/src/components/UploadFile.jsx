@@ -40,8 +40,8 @@ const UploadFile = ({ onFileUpload, uploadedFile }) => {
 
   return (
     <div
-      className={`m-4 p-6 border-2 rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ${
-        dragActive ? 'border-blue-400 bg-blue-50' : 'border-dashed border-gray-300 bg-white'
+      className={`w-2/3 m-4 p-6 border-2 rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ${
+        dragActive ? 'border-blue-400 bg-blue-50' : 'border-dashed border-gray-300 bg-white/90'
       }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -56,7 +56,7 @@ const UploadFile = ({ onFileUpload, uploadedFile }) => {
       <button
         type="button"
         onClick={handleButtonClick}
-        className="mt-4 px-4 py-2 bg-[#2c4b7d] text-white rounded hover:bg-[#6086c0] transition-colors duration-200"
+        className="mt-4 px-4 py-2 bg-dark-blue text-white rounded hover:bg-dark-blue/70 transition-colors duration-200"
       >
         Select File
       </button>

@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <div className='min-h-screen flex flex-col'>
           <Navbar />
-          <div className='grow bg-white'>
+          <div className='grow bg-background-color'>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
